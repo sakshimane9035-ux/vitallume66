@@ -9,7 +9,7 @@ Developed by final-year engineering scholars at SKN Sinhgad College of Engineeri
 
 ## 1. Project Architecture
 
-VitalLume turns ordinary ceiling light sockets into passive, 24/7 intelligent health and environmental safety nodes. This project provides a complete **Full-Stack Application** deployable on **Vercel** with a serverless Node.js backend and a high-fidelity React frontend.
+VitalLume turns ordinary ceiling light sockets into passive, 24/7 intelligent health and environmental safety nodes. This project provides a complete **Full-Stack Application**: a **FastAPI + Supabase** backend (with an in-memory fallback) and a high-fidelity React frontend. The original Vercel Node handlers remain under `/api` as a compatibility path.
 
 ```
                     +-------------------------------------------------+
@@ -21,7 +21,7 @@ VitalLume turns ordinary ceiling light sockets into passive, 24/7 intelligent he
                                              | (Authorization: Bearer <KEY>)
                                              v
                +------------------------------------------------------------+
-               |                  VitalLume Vercel Backend                  |
+               |              VitalLume FastAPI + Supabase API              |
                |                                                            |
                |  /api/sensors/data       /api/sensors/latest               |
                |  /api/device/data        /api/sensors/history              |
@@ -206,10 +206,9 @@ Create a `.env` file in the root directory:
 PORT=3001
 DEVICE_API_KEY=vitallume_secret_device_key_2026
 
-# Optional: PostgreSQL / Supabase
-# DATABASE_URL=postgresql://user:pass@host:5432/dbname
+# Supabase (run backend/supabase_schema.sql in the SQL editor)
 # SUPABASE_URL=https://xyz.supabase.co
-# SUPABASE_KEY=your-supabase-key
+# SUPABASE_SERVICE_ROLE_KEY=your-service-role-key
 
 # Threshold Configuration
 TEMP_COLD_THRESHOLD=16.0
@@ -230,15 +229,23 @@ DEVICE_OFFLINE_TIMEOUT_SECONDS=90
 ## 5. Local Development
 
 ```bash
-# 1. Install dependencies
+# 1. Install frontend dependencies
 npm install
 
-# 2. Run automated backend test suite
+# 2. Install FastAPI backend
+python -m pip install -r backend/requirements.txt
+
+# 3. Run schema in the Supabase SQL editor (backend/supabase_schema.sql),
+#    then copy project URL + service role key into .env
+
+# 4. Run automated FastAPI test suite
 npm test
 
-# 3. Start local development (API server on :3001 + Vite on :5173)
+# 5. Start local development (FastAPI on :3001 + Vite on :5173)
 npm run dev
 ```
+
+Interactive API docs: [http://localhost:3001/api/docs](http://localhost:3001/api/docs)
 
 ---
 

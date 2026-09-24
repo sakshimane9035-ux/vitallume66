@@ -4,12 +4,14 @@
   "version": "1.0.0",
   "type": "module",
   "scripts": {
-    "dev": "concurrently -k -p \"[{name}]\" -n \"API,VITE\" -c \"cyan.bold,green.bold\" \"node server.js\" \"vite\"",
+    "dev": "concurrently -k -p \"[{name}]\" -n \"API,VITE\" -c \"cyan.bold,green.bold\" \"npm run dev:server\" \"vite\"",
     "dev:client": "vite",
-    "dev:server": "node server.js",
+    "dev:server": "python -m uvicorn app.main:app --reload --host 127.0.0.1 --port 3001 --app-dir backend",
+    "dev:server:node": "node server.js",
     "build": "vite build",
     "preview": "vite preview",
-    "test": "node test_backend.js"
+    "test": "python -m pytest",
+    "test:node": "node test_backend.js"
   },
   "dependencies": {
     "react": "^18.3.1",
